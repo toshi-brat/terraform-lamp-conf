@@ -68,7 +68,7 @@ resource "aws_route_table" "tg-vpc2" {
   # }
 # }
 
-output "name" {
-  value = module.vpc
-}
+# output "name" {
+#   value = module.vpc
+# }
 
