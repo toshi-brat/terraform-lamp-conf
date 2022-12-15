@@ -62,36 +62,37 @@ resource "aws_route_table_association" "pub-rt-association" {
   route_table_id = aws_route_table.pub-rt.id
 }
 
-resource "aws_route_table" "private" {
-  vpc_id = aws_vpc.dev_vpc.id
-   route {
-    cidr_block = "0.0.0.0/0"
-    gateway_id = aws_nat_gateway.nat-gt.id
-  }
-}
-resource "aws_route_table_association" "pri-rt-association" {
-  for_each = aws_subnet.pri-snet
-  subnet_id      = each.value.id
-  route_table_id = aws_route_table.private.id
-}
-
 resource "aws_eip" "eip" {
-  count = var.is_nat_required ? 1 : 0
-   tags = {
+  for_each = aws_subnet.pri-snet
+  tags = {
     Name = "gw NAT"
   }
+  depends_on = [
+    aws_subnet.pri-snet
+  ]
 }
 
 resource "aws_nat_gateway" "nat-gt" {
-  for_each = aws_subnet.pri-snet
-  allocation_id = aws_eip.eip[0].id
+  for_each = aws_eip.eip
+  allocation_id = each.value.id
   #subnet_id = lookup(aws_subnet.pub-snet, var.nat-pub-id , null)
-  subnet_id = each.value.id
+  subnet_id = aws_subnet.pub-snet.id
     tags = {
     Name = "gw NAT"
   }
 
  depends_on = [aws_internet_gateway.igw,aws_eip.eip]
 }
-
-
+resource "aws_route_table" "private" {
+  for_each = aws_nat_gateway.nat-gt
+  vpc_id = aws_vpc.dev_vpc.id
+   route {
+    cidr_block = "0.0.0.0/0"
+    gateway_id = each.value.id
+  }
+}
+resource "aws_route_table_association" "pri-rt-association" {
+  for_each = aws_subnet.pri-snet
+  subnet_id      = each.value.id
+  route_table_id = aws_route_table.private[each.key].id
+}
