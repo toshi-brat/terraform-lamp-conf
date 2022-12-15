@@ -19,18 +19,18 @@ variable "pri-snet2" {
   }))
 }
 
-variable "vpc" {
-  type = map(object({
-  cidr = string
-  pub-cidr = string
-  pub-region = string
-  is_nat_required = bool
-  pri-snet = map(object({
-    cidr_block        = string
-    availability_zone = string
-  }))
-  }))
-}
+# variable "vpc" {
+#   type = map(object({
+#   cidr = string
+#   pub-cidr = string
+#   pub-region = string
+#   is_nat_required = bool
+#   pri-snet = map(object({
+#     cidr_block        = string
+#     availability_zone = string
+#   }))
+#   }))
+# }
 
 
 variable "pub-cidr" {

@@ -45,14 +45,14 @@ resource "aws_route_table" "tg-vpc2" {
   } 
 }
 
-module "vpc"{
-  source          = "../modules/networking"
-  for_each = var.vpc
-  cidr = each.value["cidr"]
-  pub-cidr = each.value["pub-cidr"]
-  pub-region = each.value["pub-region"]
-  is_nat_required = each.value["is_nat_required"]
-  pri-snet = each.value["pri-snet"]
+# module "vpc"{
+#   source          = "../modules/networking"
+#   for_each = var.vpc
+#   cidr = each.value["cidr"]
+#   pub-cidr = each.value["pub-cidr"]
+#   pub-region = each.value["pub-region"]
+#   is_nat_required = each.value["is_nat_required"]
+#   pri-snet = each.value["pri-snet"]
 
   # locals{
   # network =flatten([
@@ -66,7 +66,7 @@ module "vpc"{
   #   ]
   # ])
   # }
-}
+# }
 
 output "name" {
   value = module.vpc
