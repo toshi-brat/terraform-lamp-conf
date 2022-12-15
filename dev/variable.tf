@@ -20,14 +20,19 @@ variable "pri-snet2" {
 }
 
 # variable "vpc" {
-#   type = map(map(object({
+#   type = map(object({
 #   cidr = string
-#   pri-snet = {
+#   pub-cidr = string
+#   pub-region = string
+#   is_nat_required = bool
+#   pri-snet = map(object({
 #     cidr_block        = string
 #     availability_zone = string
-#   }
-#   })))
+#   }))
+#   }))
 # }
+
+
 variable "pub-cidr" {
   
 }

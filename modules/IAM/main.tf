@@ -16,7 +16,7 @@ resource "aws_iam_policy" "bucket_policy" {
           "s3:DeleteObject"
         ],
         "Resource" : [
-          "arn:aws:s3:::*/*",
+          "arn:aws:s3:::mylab321/*",
           ]
       }
     ]
